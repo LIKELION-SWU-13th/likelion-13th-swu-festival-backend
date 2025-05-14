@@ -19,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "https://${frontend.domain}")
 public class UserController {
     private final UserService userService;
 
