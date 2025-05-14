@@ -32,8 +32,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/auth/**",
-                                "/user/auth",
                                 "/user/login",
                                 "/user/ocr",
                                 "/user/test", //cors 해결 테스트용
