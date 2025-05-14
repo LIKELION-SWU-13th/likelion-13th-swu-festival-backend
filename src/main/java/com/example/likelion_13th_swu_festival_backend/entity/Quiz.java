@@ -2,9 +2,12 @@ package com.example.likelion_13th_swu_festival_backend.entity;
 
 import com.example.likelion_13th_swu_festival_backend.constant.QuizStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Setter @Getter
 @Entity
 public class Quiz {
     @Id

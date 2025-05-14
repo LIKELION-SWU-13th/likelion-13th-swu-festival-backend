@@ -5,6 +5,7 @@ import com.example.likelion_13th_swu_festival_backend.dto.userDTO.UserRequestDTO
 import com.example.likelion_13th_swu_festival_backend.dto.userDTO.UserResponseDTO;
 import com.example.likelion_13th_swu_festival_backend.entity.User;
 import com.example.likelion_13th_swu_festival_backend.jwt.JwtUtil;
+import com.example.likelion_13th_swu_festival_backend.jwt.TokenStatus;
 import com.example.likelion_13th_swu_festival_backend.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -154,14 +155,39 @@ public class UserService {
             user = userRepository.save(UserConverter.createUser(request));
         }
 
-        // 토큰 생성
+        // access token 생성
         String accessToken = jwtUtil.generateAccessToken(user);
 
+        // refresh token 생성 및 DB 저장
+        String refreshToken = jwtUtil.generateRefreshToken(user);
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user); // 반드시 저장해서 서버가 관리
+
         return UserResponseDTO.UserResultRsDTO.builder()
-                .token(accessToken)
+                .access_token(accessToken)
+                .refresh_token(refreshToken)
                 .user_id(user.getId())
                 .build();
 
     }
+
+    public TokenStatus validateRefreshToken(String token) {
+        return jwtUtil.validateRefreshToken(token);
+    }
+
+    public String extractUsernameFromRefresh(String token) {
+        return jwtUtil.extractUsernameFromRefresh(token);
+    }
+
+    public UserResponseDTO.TokenPairRsDTO reissueAccessToken(String studentNum, String requestRefreshToken) {
+        User user = userRepository.findByStudentNum(studentNum);
+        if (user == null || !user.getRefreshToken().equals(requestRefreshToken)) {
+            throw new RuntimeException("Invalid refresh token or user not found");
+        }
+
+        String newAccessToken = jwtUtil.generateAccessToken(user);
+        return new UserResponseDTO.TokenPairRsDTO(newAccessToken, user.getRefreshToken());
+    }
+
 
 }

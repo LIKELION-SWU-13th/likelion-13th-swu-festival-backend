@@ -6,13 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class UserResponseDTO {
-    //사용자 생성 후 토큰, id 반환
+    // 리프레시 토큰 만료될 시 반환
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UserResultRsDTO{
-        String token;
+        String access_token;
+        String refresh_token;
         Long user_id;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class TokenPairRsDTO {
+        private String accessToken;
+        private String refreshToken;
     }
 }
