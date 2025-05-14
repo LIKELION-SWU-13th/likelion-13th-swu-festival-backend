@@ -26,8 +26,8 @@ spring:
 #      - oauth2
       - local
 
-#frontend:
-#  domain: ${FRONT_DOMAIN}
+frontend:
+  domain: ${FRONT_DOMAIN}
 
 naver:
   ocr:
