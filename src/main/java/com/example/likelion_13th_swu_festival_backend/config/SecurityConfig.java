@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                                 configuration.setAllowedHeaders(List.of("*"));
                                 configuration.setExposedHeaders(List.of("Authorization"));
-                                configuration.setAllowCredentials(false);  // JWT 헤더 방식은 false 권장 (쿠키X)
+                                configuration.setAllowCredentials(true);
                                 configuration.setMaxAge(3600L);
                                 return configuration;
                             }
@@ -56,7 +56,7 @@ public class SecurityConfig {
                                 "/user/login",
                                 "/user/ocr",
                                 "/user/test",
-                                "user/refresh",
+                                "/user/refresh",
                                 "/public/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
