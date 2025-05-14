@@ -8,7 +8,7 @@ server:
 
 spring:
   application:
-    name: likelion_13th_festival_BE
+    name: likelion_13th_festival_backend
   jpa:
     show-sql: true
     generate-ddl: true
