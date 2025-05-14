@@ -35,13 +35,14 @@ jobs:
                   value: ${{ secrets.DB_PASSWORD }}
                 - name: DB_URL
                   value: ${{ secrets.DB_URL }}
-
                 - name: OCR_SECRET_KEY
                   value: ${{ secrets.OCR_SECRET_KEY }}
                 - name: OCR_URL
                   value: ${{ secrets.OCR_URL }}
                 - name: JWT_SECRET
                   value: ${{ secrets.JWT_SECRET }}
+                - name: FRONT_DOMAIN
+                  value: ${{ secrets.JFRONT_DOMAIN }}
             context:
               git:
                 url: https://github.com/${{ github.repository }}.git
