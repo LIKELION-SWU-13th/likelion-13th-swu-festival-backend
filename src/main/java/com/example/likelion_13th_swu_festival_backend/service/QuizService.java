@@ -4,7 +4,6 @@ import com.example.likelion_13th_swu_festival_backend.dto.quizDTO.QuizResponseDt
 import com.example.likelion_13th_swu_festival_backend.repository.AnswerRepository;
 import com.example.likelion_13th_swu_festival_backend.repository.QuizRepository;
 import com.example.likelion_13th_swu_festival_backend.entity.Quiz;
-import com.example.likelion_13th_swu_festival_backend.jwt.JwtUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
