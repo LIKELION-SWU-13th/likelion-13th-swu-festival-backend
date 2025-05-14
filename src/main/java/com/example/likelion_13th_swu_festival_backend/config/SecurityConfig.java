@@ -37,7 +37,7 @@ public class SecurityConfig {
                                         "https://" + frontendDomain,
                                         "http://localhost:3003",
                                         "https://localhost:3003",
-                                        "https://port-0-likelion-13th-swu-festival-backend-m7ogd43l77318f45.sel4.cloudtype.app/"
+                                        "https://api.likelion13th-swu.site/"
 
                                 ));
                                 configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -56,6 +56,7 @@ public class SecurityConfig {
                                 "/user/login",
                                 "/user/ocr",
                                 "/user/test",
+                                "user/refresh",
                                 "/public/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",

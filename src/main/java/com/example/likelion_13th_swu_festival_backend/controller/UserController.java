@@ -34,6 +34,7 @@ public class UserController {
     }
 
     // 리프레시 토큰이 만료되었을 때 사용하는 api
+    // 리프레시 토큰 재발급
     @PostMapping("/login")
     public ResponseEntity<UserResponseDTO.UserResultRsDTO> createUser(
             @RequestBody @Valid UserRequestDTO.CreateUserRqDTO request) {
