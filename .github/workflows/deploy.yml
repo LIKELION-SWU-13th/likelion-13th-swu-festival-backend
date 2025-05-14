@@ -43,6 +43,8 @@ jobs:
                   value: ${{ secrets.JWT_SECRET }}
                 - name: FRONT_DOMAIN
                   value: ${{ secrets.FRONT_DOMAIN }}
+                - name: REDIS_DOMAIN
+                  value: ${{ secrets.REDIS_DOMAIN }}
             context:
               git:
                 url: https://github.com/${{ github.repository }}.git
