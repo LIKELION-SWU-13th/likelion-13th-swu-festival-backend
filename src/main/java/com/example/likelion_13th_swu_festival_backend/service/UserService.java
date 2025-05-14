@@ -5,6 +5,7 @@ import com.example.likelion_13th_swu_festival_backend.dto.userDTO.UserRequestDTO
 import com.example.likelion_13th_swu_festival_backend.dto.userDTO.UserResponseDTO;
 import com.example.likelion_13th_swu_festival_backend.entity.User;
 import com.example.likelion_13th_swu_festival_backend.jwt.JwtUtil;
+import com.example.likelion_13th_swu_festival_backend.jwt.TokenStatus;
 import com.example.likelion_13th_swu_festival_backend.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -169,5 +170,24 @@ public class UserService {
                 .build();
 
     }
+
+    public TokenStatus validateRefreshToken(String token) {
+        return jwtUtil.validateRefreshToken(token);
+    }
+
+    public String extractUsernameFromRefresh(String token) {
+        return jwtUtil.extractUsernameFromRefresh(token);
+    }
+
+    public UserResponseDTO.TokenPairRsDTO reissueAccessToken(String studentNum, String requestRefreshToken) {
+        User user = userRepository.findByStudentNum(studentNum);
+        if (user == null || !user.getRefreshToken().equals(requestRefreshToken)) {
+            throw new RuntimeException("Invalid refresh token or user not found");
+        }
+
+        String newAccessToken = jwtUtil.generateAccessToken(user);
+        return new UserResponseDTO.TokenPairRsDTO(newAccessToken, user.getRefreshToken());
+    }
+
 
 }
