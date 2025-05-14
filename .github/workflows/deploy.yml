@@ -1,0 +1,48 @@
+name: Deploy to cloudtype
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: oooiooop9988/db
+          stage: main
+          yaml: |
+            name: likelion-13th-swu-festival-backend
+            app: java@17
+            options:
+              ports: "8080"
+              env:
+                - name: SPRING_PROFILES_ACTIVE
+                  value: dev
+                - name: DEV_DB_USERNAME
+                  value: ${{ secrets.DEV_DB_USERNAME }}
+                - name: DEV_DB_PASSWORD
+                  value: ${{ secrets.DEV_DB_PASSWORD }}
+                - name: DEV_DB_URL
+                  value: ${{ secrets.DEV_DB_URL }}
+                - name: DB_USERNAME
+                  value: ${{ secrets.DB_USERNAME }}
+                - name: DB_PASSWORD
+                  value: ${{ secrets.DB_PASSWORD }}
+                - name: DB_URL
+                  value: ${{ secrets.DB_URL }}
+
+                - name: OCR_SECRET_KEY
+                  value: ${{ secrets.OCR_SECRET_KEY }}
+                - name: OCR_URL
+                  value: ${{ secrets.OCR_URL }}
+                - name: JWT_SECRET
+                  value: ${{ secrets.JWT_SECRET }}
+            context:
+              git:
+                url: https://github.com/${{ github.repository }}.git
+                ref: ${{ github.ref }}

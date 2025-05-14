@@ -1,0 +1,39 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: likelion_13th_festival_BE
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        hbm2ddl:
+          auto: update
+    database: mysql
+  profiles:
+    include:
+      - database
+#      - oauth2
+      - local
+
+#frontend:
+#  domain: ${FRONT_DOMAIN}
+
+naver:
+  ocr:
+    general:
+      url: ${OCR_URL}
+    secret: ${OCR_SECRET_KEY}
+
+jwt:
+  secret: ${JWT_SECRET}
