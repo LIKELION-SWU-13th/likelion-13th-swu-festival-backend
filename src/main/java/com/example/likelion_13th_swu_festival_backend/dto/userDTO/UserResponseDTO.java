@@ -12,7 +12,8 @@ public class UserResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UserResultRsDTO{
-        String token;
+        String access_token;
+        String refresh_token;
         Long user_id;
     }
 }

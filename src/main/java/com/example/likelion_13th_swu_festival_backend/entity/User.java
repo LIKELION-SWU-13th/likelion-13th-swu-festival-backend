@@ -25,6 +25,8 @@ public class User {
 
     private String major;
 
+    private String refreshToken;
+
     //유형
     private int type;
 }

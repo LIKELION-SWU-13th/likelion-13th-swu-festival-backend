@@ -154,11 +154,17 @@ public class UserService {
             user = userRepository.save(UserConverter.createUser(request));
         }
 
-        // 토큰 생성
+        // access token 생성
         String accessToken = jwtUtil.generateAccessToken(user);
 
+        // refresh token 생성 및 DB 저장
+        String refreshToken = jwtUtil.generateRefreshToken(user);
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user); // 반드시 저장해서 서버가 관리
+
         return UserResponseDTO.UserResultRsDTO.builder()
-                .token(accessToken)
+                .access_token(accessToken)
+                .refresh_token(refreshToken)
                 .user_id(user.getId())
                 .build();
 
