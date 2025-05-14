@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns("*")  // 테스트용은 * (운영 시 도메인만)
+                        .allowedOriginPatterns("*")  // 테스트용은 * (운영 시 도메인만)...
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);
