@@ -14,7 +14,7 @@ public class JwtUtil {
     @Value("${JWT_SECRET}")
     private String SECRET_KEY;
 
-    private final long ACCESS_EXP_TIME = 1000L * 60 * 60;  // 1시간
+    private final long ACCESS_EXP_TIME = 1000L * 60 * 60 * 24 * 10;  // 10일
     private final long REFRESH_EXP_TIME = 1000L * 60 * 60 * 24 * 3;  // 3일
 
     public String generateAccessToken(User user) {
