@@ -1,9 +1,11 @@
 package com.example.likelion_13th_swu_festival_backend.controller;
 
+import com.example.likelion_13th_swu_festival_backend.dto.boothDTO.BoothInfoResponse;
 import com.example.likelion_13th_swu_festival_backend.dto.boothDTO.BoothStatusResponse;
 import com.example.likelion_13th_swu_festival_backend.security.CustomUserDetails;
 import com.example.likelion_13th_swu_festival_backend.service.BoothService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +21,16 @@ public class BoothController {
 
     private final BoothService boothService;
 
+
     @GetMapping("/info")
-    public ResponseEntity<com.example.likelion_13th_swu_festival_backend.dto.boothDTO.BoothInfoResponse> getBoothInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        Long userId = userDetails.getUserId();
-        com.example.likelion_13th_swu_festival_backend.dto.boothDTO.BoothInfoResponse response = boothService.getBoothInfo(userId);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> getBoothInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        try {
+            Long userId = userDetails.getUserId();
+            BoothInfoResponse response = boothService.getBoothInfo(userId);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", e.getMessage()));
+        }
     }
 
     /*
