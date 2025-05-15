@@ -56,6 +56,7 @@ public class SecurityConfig {
                                 "/user/login",
                                 "/user/ocr",
                                 "/user/refresh",
+                                "/user/auth",
                                 "/public/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
