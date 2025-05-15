@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/init")
+@RequestMapping("/init")
 @RequiredArgsConstructor
 public class QuizInitController {
     private final QuizInitService quizInitService;
