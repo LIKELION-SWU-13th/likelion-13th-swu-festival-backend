@@ -1,4 +1,4 @@
-package com.example.likelion_13th_festival_BE.dto.boothDTO;
+package com.example.likelion_13th_swu_festival_backend.dto.boothDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
