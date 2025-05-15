@@ -3,6 +3,7 @@ package com.example.likelion_13th_swu_festival_backend.entity;
 import com.example.likelion_13th_swu_festival_backend.constant.QuizStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.ColumnDefault;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -25,5 +26,13 @@ public class Quiz {
     private QuizStatus quizStatus;
 
     private LocalDateTime open_time;
+
+    // 남은 쿠폰 발급 갯수
+    @ColumnDefault("2")
+    private Long count;
+
+    public void decreaseQuizCount() {
+        -- this.count;
+    }
 
 }
