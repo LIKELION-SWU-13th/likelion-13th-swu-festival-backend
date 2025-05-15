@@ -33,6 +33,7 @@ public class BoothService {
         return new BoothInfoResponse(boothNames, user.getMajor());
     }
 
+    /*
     public BoothStatusResponse getBoothStatus(Long boothId) {
         // boothId로 부스를 조회
         Booth booth = boothRepository.findById(boothId)
@@ -40,7 +41,7 @@ public class BoothService {
 
         // 부스 이름과 운영 상태를 BoothStatusResponse에 담아서 반환
         return new BoothStatusResponse(booth.getName(), booth.getIsActive());
-    }
+    }*/
 
     public void participateBooth(Long userId, Long boothId) {
         User user = userRepository.findById(userId)
@@ -59,7 +60,7 @@ public class BoothService {
 
         userBoothRepository.save(userBooth);
     }
-
+    /*
     public boolean hasParticipated(Long userId, Long boothId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -68,4 +69,16 @@ public class BoothService {
 
         return userBoothRepository.existsByUserAndBooth(user, booth);
     }
+     */
+
+    public List<Long> getParticipatedBooths(Long userId) {
+        // UserBooth 엔티티에서 userId로 참여한 기록 조회
+        List<UserBooth> userBooths = userBoothRepository.findAllByUserId(userId);
+
+        // 참여한 부스의 ID만 추출해서 리스트로 반환
+        return userBooths.stream()
+                .map(userBooth -> userBooth.getBooth().getId())
+                .collect(Collectors.toList());
+    }
+
 }

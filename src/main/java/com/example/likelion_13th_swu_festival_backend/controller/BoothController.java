@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/booth")
@@ -22,24 +26,39 @@ public class BoothController {
         return ResponseEntity.ok(response);
     }
 
+    /*
     @GetMapping("/{boothId}/info")
     public ResponseEntity<BoothStatusResponse> getBoothStatus(@PathVariable Long boothId) {
         BoothStatusResponse response = boothService.getBoothStatus(boothId);
         return ResponseEntity.ok(response);
     }
+    */
 
     @PostMapping("/{boothId}/participate")
-    public ResponseEntity<Void> participateBooth(@PathVariable Long boothId,
+    public ResponseEntity<String> participateBooth(@PathVariable Long boothId,
                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
         boothService.participateBooth(userDetails.getUserId(), boothId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("참여가 완료되었습니다.");
     }
 
+    /*
     @GetMapping("/{boothId}/complete")
-    public ResponseEntity<Boolean> isBoothCompleted(@PathVariable Long boothId,
+    public ResponseEntity<Map<String, Boolean>> isBoothCompleted(@PathVariable Long boothId,
                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
         boolean participated = boothService.hasParticipated(userDetails.getUserId(), boothId);
-        return ResponseEntity.ok(participated);
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("isParticipated", participated);
+        return ResponseEntity.ok(result);
     }
+    */
+
+    @GetMapping("/complete")
+    public ResponseEntity<List<Long>> getParticipatedBooths(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        List<Long> boothIdList = boothService.getParticipatedBooths(userDetails.getUserId());
+        return ResponseEntity.ok(boothIdList);
+    }
+
 
 }
