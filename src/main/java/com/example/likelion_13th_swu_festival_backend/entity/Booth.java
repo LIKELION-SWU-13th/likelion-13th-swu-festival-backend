@@ -22,7 +22,8 @@ public class Booth {
     @Column(name = "is_active")
     private Boolean isActive;  // 운영 여부 (운영중 / 종료)
 
-    public Boolean getIsActive() {
-        return isActive;
+    public Booth(String name, Boolean isActive) {
+        this.name = name;
+        this.isActive = isActive;
     }
 }
