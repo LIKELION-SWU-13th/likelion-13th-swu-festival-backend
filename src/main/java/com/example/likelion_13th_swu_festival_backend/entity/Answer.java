@@ -1,11 +1,16 @@
 package com.example.likelion_13th_swu_festival_backend.entity;
 
+import com.example.likelion_13th_swu_festival_backend.entity.common.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Setter @Getter
-public class Answer {
+@Getter @Setter
+@NoArgsConstructor
+public class Answer extends BaseEntity {
     @Id
     @Column(name = "answer_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +26,18 @@ public class Answer {
 
     private char choice;
 
-    private boolean is_win;
+    private boolean isWin;
+
+    @Builder
+    public  Answer(Quiz quiz, User user, char choice, boolean isWin) {
+        this.quiz = quiz;
+        this.user = user;
+        this.choice = choice;
+        this.isWin = isWin;
+    }
 
     public void setIsWin(boolean isWin) {
-        this.is_win = isWin;
+        this.isWin = isWin;
     }
 
 

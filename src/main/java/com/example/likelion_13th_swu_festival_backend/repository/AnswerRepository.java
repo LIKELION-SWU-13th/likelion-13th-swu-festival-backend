@@ -15,4 +15,13 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     // 퀴즈 ID에 따른 모든 응답 조회
     List<Answer> findByQuizId(Long quizId);
 
+    // 퀴즈 id와 유저 id로 응답 조회
+    public Answer findByQuizIdAndUserId(Long quiz_id, Long user_id);
+
+    // 유저 id로 당첨 기록이 있는 객체들 조회
+    public List<Answer> findAnswersByIsWinIsTrueAndUserId(Long user_id);
+
+    // 퀴즈 id와 응답으로 객체 갯수 조회
+    public Long countByQuizIdAndChoice(Long quizId, char choice);
+
 }
