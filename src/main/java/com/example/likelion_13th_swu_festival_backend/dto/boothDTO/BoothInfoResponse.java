@@ -11,8 +11,8 @@ public class BoothInfoResponse {
     private List<String> department_list;
     private String major;
 
-    public BoothInfoResponse(List<String> boothNames, String major) {
-        this.department_list = boothNames != null ? department_list : new ArrayList<>();
+    public BoothInfoResponse(List<String> Name, String major) {
+        this.department_list = (Name != null && !Name.isEmpty()) ? Name : new ArrayList<>();
         this.major = major;
     }
 }
