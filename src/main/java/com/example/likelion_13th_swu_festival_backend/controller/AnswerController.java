@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/answers")
+@CrossOrigin(origins = "https://${frontend.domain}")
 public class AnswerController {
     final AnswerService answerService;
 
