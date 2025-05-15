@@ -1,5 +1,6 @@
 package com.example.likelion_13th_swu_festival_backend.dto.boothDTO;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

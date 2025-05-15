@@ -26,6 +26,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/quiz")
+@CrossOrigin(origins = "https://${frontend.domain}")
 public class QuizController {
 
     private final QuizService quizService;

@@ -17,6 +17,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/booth")
+@CrossOrigin(origins = "https://${frontend.domain}")
 public class BoothController {
 
     private final BoothService boothService;

@@ -5,6 +5,7 @@ import com.example.likelion_13th_swu_festival_backend.repository.BoothRepository
 import com.example.likelion_13th_swu_festival_backend.service.InitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/init")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "https://${frontend.domain}")
 public class InitController {
 
     private final InitService quizInitService;
