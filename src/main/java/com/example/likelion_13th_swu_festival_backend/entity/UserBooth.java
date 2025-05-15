@@ -21,4 +21,11 @@ public class UserBooth {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booth_id", nullable = false)
     private Booth booth;
+
+    @Builder
+    public UserBooth(User user, Booth booth) {
+        this.user = user;
+        this.booth = booth;
+    }
+
 }

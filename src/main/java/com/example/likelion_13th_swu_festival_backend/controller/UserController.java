@@ -60,7 +60,7 @@ public class UserController {
         return ResponseEntity.ok("1");
     }
 
-    @PostMapping("/refresh")
+    @GetMapping("/refresh")
     public ResponseEntity<?> refreshAccessToken(@RequestHeader("Authorization") String refreshToken) {
         if (refreshToken.startsWith("Bearer ")) {
             refreshToken = refreshToken.substring(7);

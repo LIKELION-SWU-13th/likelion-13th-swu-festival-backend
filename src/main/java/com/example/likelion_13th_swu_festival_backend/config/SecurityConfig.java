@@ -55,7 +55,6 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/user/login",
                                 "/user/ocr",
-                                "/user/test",
                                 "/user/refresh",
                                 "/public/**",
                                 "/swagger-ui/**",
