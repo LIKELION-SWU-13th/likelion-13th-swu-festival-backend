@@ -30,7 +30,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         // 로그인, 인증 엔드포인트와 OCR 업로드는 필터 건너뜀
         return path.startsWith("/user/login")
-                || path.startsWith("/auth/")
                 || path.startsWith("/user/ocr");
     }
 

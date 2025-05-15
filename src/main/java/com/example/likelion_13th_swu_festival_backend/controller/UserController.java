@@ -43,8 +43,15 @@ public class UserController {
     }
 
     @GetMapping("/auth")
-    public ResponseEntity<?> testApi() {
-        return ResponseEntity.ok("JWT 인증 성공");
+    public ResponseEntity<?> testApi(@RequestHeader("Authorization") String refreshToken) {
+        // refresh Token 유효성 검증
+        if (refreshToken.startsWith("Bearer ")) {
+            refreshToken = refreshToken.substring(7);
+        }
+        if (userService.validateRefreshToken(refreshToken) != TokenStatus.AUTHENTICATED) {
+            return ResponseEntity.status(401).body("유효하지 않거나 만료된 리프레시 토큰입니다");
+        }
+        return ResponseEntity.ok("refresh token 인증 성공");
     }
 
     @GetMapping("/mypage")
@@ -53,11 +60,6 @@ public class UserController {
         String studentNum = userDetails.getStudentNum();
 
         return ResponseEntity.ok("userId: " + userId + ", studentNum: " + studentNum);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<?> test() {
-        return ResponseEntity.ok("1");
     }
 
     @GetMapping("/refresh")
