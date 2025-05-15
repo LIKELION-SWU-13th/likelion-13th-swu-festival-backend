@@ -35,4 +35,11 @@ public class BoothController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{boothId}/complete")
+    public ResponseEntity<Boolean> isBoothCompleted(@PathVariable Long boothId,
+                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+        boolean participated = boothService.hasParticipated(userDetails.getUserId(), boothId);
+        return ResponseEntity.ok(participated);
+    }
+
 }

@@ -59,4 +59,13 @@ public class BoothService {
 
         userBoothRepository.save(userBooth);
     }
+
+    public boolean hasParticipated(Long userId, Long boothId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Booth booth = boothRepository.findById(boothId)
+                .orElseThrow(() -> new RuntimeException("Booth not found"));
+
+        return userBoothRepository.existsByUserAndBooth(user, booth);
+    }
 }
