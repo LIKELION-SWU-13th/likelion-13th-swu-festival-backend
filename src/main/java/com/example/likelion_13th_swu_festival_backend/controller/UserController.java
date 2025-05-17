@@ -8,12 +8,14 @@ import com.example.likelion_13th_swu_festival_backend.service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -82,6 +84,21 @@ public class UserController {
         return ResponseEntity.ok(tokenPairRsDTO);
     }
 
+
+    @GetMapping("/type")
+    public ResponseEntity<Map<String, Integer>> getUserType(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        Long userId = userDetails.getUserId();
+        int type = userService.determineUserType(userId);
+
+        Map<String, Integer> response = new HashMap<>();
+        response.put("type", type);
+
+        return ResponseEntity.ok(response);
+    }
 
 
 }

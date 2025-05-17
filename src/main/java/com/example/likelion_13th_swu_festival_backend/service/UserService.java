@@ -3,12 +3,15 @@ package com.example.likelion_13th_swu_festival_backend.service;
 import com.example.likelion_13th_swu_festival_backend.converter.UserConverter;
 import com.example.likelion_13th_swu_festival_backend.dto.userDTO.UserRequestDTO;
 import com.example.likelion_13th_swu_festival_backend.dto.userDTO.UserResponseDTO;
+import com.example.likelion_13th_swu_festival_backend.entity.Answer;
 import com.example.likelion_13th_swu_festival_backend.entity.User;
 import com.example.likelion_13th_swu_festival_backend.jwt.JwtUtil;
 import com.example.likelion_13th_swu_festival_backend.jwt.TokenStatus;
+import com.example.likelion_13th_swu_festival_backend.repository.AnswerRepository;
 import com.example.likelion_13th_swu_festival_backend.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -31,6 +34,7 @@ public class UserService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
+    private final AnswerRepository answerRepository;
     private final JwtUtil jwtUtil;
 
     @Value("${naver.ocr.general.url}")
@@ -188,5 +192,46 @@ public class UserService {
         String newAccessToken = jwtUtil.generateAccessToken(user);
         return new UserResponseDTO.TokenPairRsDTO(newAccessToken, user.getRefreshToken());
     }
+
+
+    public int determineUserType(Long userId) {
+
+        int[] typeA = {1, 1, 1, 1, 3, 3, 1, 1, 3, 3, 1, 3}; // A일 때의 타입
+        int[] typeB = {2, 3, 4, 4, 2, 2, 4, 4, 2, 4, 4, 2}; // B일 때의 타입
+
+        List<Answer> userAnswers = answerRepository.findByUserIdOrderByQuizIdAsc(userId);
+
+        if (userAnswers.size() != 12) {
+            throw new IllegalStateException("아직 12개를 응답하지 않았습니다.");
+        }
+
+        // 타입별 카운팅 배열 (0:dummy, 1:🎤, 2:🌞, 3:🌿, 4:🔥)
+        int[] counts = new int[5];
+
+        for (int i = 0; i < 12; i++) {
+            char choice = userAnswers.get(i).getChoice(); // 'A' or 'B'
+            int type = (choice == 'A') ? typeA[i] : typeB[i];
+            counts[type]++;
+        }
+
+        // 가장 많은 count를 가진 타입 찾기 (우선순위: 🎤 > 🌞 > 🌿 > 🔥)
+        int maxType = 1;
+        int maxCount = counts[1];
+
+        for (int t = 2; t <= 4; t++) {
+            if (counts[t] > maxCount || (counts[t] == maxCount && t < maxType)) {
+                maxType = t;
+                maxCount = counts[t];
+            }
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다."));
+        user.setType(maxType);
+        userRepository.save(user);
+
+        return maxType;
+    }
+
 
 }

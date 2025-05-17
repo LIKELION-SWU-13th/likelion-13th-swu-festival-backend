@@ -1,10 +1,12 @@
 package com.example.likelion_13th_swu_festival_backend.service;
 
+import com.example.likelion_13th_swu_festival_backend.dto.quizDTO.QuizPercentResponse;
 import com.example.likelion_13th_swu_festival_backend.dto.quizDTO.QuizResponseDto;
 import com.example.likelion_13th_swu_festival_backend.entity.Answer;
 import com.example.likelion_13th_swu_festival_backend.repository.AnswerRepository;
 import com.example.likelion_13th_swu_festival_backend.repository.QuizRepository;
 import com.example.likelion_13th_swu_festival_backend.entity.Quiz;
+import com.example.likelion_13th_swu_festival_backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class QuizService {
 
     private final QuizRepository quizRepository;
     private final AnswerRepository answerRepository;
+    private final UserRepository userRepository;
 
     public QuizResponseDto getQuizById(Long id) {
         Quiz quiz = quizRepository.findById(id)

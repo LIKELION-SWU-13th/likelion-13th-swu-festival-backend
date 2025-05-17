@@ -30,4 +30,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
     Optional<Answer> findOptionalByQuizIdAndUserId(Long quiz_id, Long user_id);
 
+    List<Answer> findByUserIdOrderByQuizIdAsc(Long userId);
+
+
 }
