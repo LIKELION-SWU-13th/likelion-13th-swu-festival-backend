@@ -1,5 +1,6 @@
 package com.example.likelion_13th_swu_festival_backend.controller;
 
+import com.example.likelion_13th_swu_festival_backend.dto.quizDTO.QuizPercentResponse;
 import com.example.likelion_13th_swu_festival_backend.repository.AnswerRepository;
 import com.example.likelion_13th_swu_festival_backend.repository.QuizRepository;
 import com.example.likelion_13th_swu_festival_backend.repository.UserRepository;
@@ -10,6 +11,7 @@ import com.example.likelion_13th_swu_festival_backend.entity.Quiz;
 import com.example.likelion_13th_swu_festival_backend.entity.User;
 import com.example.likelion_13th_swu_festival_backend.jwt.JwtUtil;
 import com.example.likelion_13th_swu_festival_backend.security.CustomUserDetails;
+import com.example.likelion_13th_swu_festival_backend.service.AnswerService;
 import com.example.likelion_13th_swu_festival_backend.service.QuizAnswerService;
 import com.example.likelion_13th_swu_festival_backend.service.QuizService;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,9 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +35,7 @@ public class QuizController {
     private final AnswerRepository answerRepository;
     private final JwtUtil jwtUtil;
     private final QuizAnswerService quizAnswerService;
+    private final AnswerService answerService;
 
 
     @GetMapping("/{quizId}")
@@ -90,5 +91,36 @@ public class QuizController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Quiz not found"));
         }
     }
+
+    @GetMapping("/{quiz_id}/percent")
+    public ResponseEntity<?> getQuizPercent(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long quiz_id) {
+
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+        }
+
+        Long userId = userDetails.getUserId();
+        Answer userAnswer = answerRepository.findByQuizIdAndUserId(quiz_id, userId);
+        if (userAnswer == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("message", "해당 퀴즈에 아직 응답하지 않았습니다."));
+        }
+
+        String userChoice = String.valueOf(userAnswer.getChoice());
+
+        long totalCount = answerRepository.countByQuizId(quiz_id);
+        long aCount = answerRepository.countByQuizIdAndChoice(quiz_id, 'A');
+        long bCount = answerRepository.countByQuizIdAndChoice(quiz_id, 'B');
+
+        double aPercent = totalCount == 0 ? 0 : (double) aCount / totalCount * 100;
+        double bPercent = totalCount == 0 ? 0 : (double) bCount / totalCount * 100;
+
+        QuizPercentResponse response = new QuizPercentResponse(userChoice, aPercent, bPercent);
+
+        return ResponseEntity.ok(response);
+    }
+
 
 }

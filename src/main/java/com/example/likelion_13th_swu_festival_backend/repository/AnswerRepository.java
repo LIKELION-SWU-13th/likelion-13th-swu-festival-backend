@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
@@ -15,6 +16,9 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     // 퀴즈 ID에 따른 모든 응답 조회
     List<Answer> findByQuizId(Long quizId);
 
+    //해당 퀴즈에 대한 응답 개수를 카운트
+    Long countByQuizId(Long quizId);
+
     // 퀴즈 id와 유저 id로 응답 조회
     public Answer findByQuizIdAndUserId(Long quiz_id, Long user_id);
 
@@ -23,5 +27,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
     // 퀴즈 id와 응답으로 객체 갯수 조회
     public Long countByQuizIdAndChoice(Long quizId, char choice);
+
+    Optional<Answer> findOptionalByQuizIdAndUserId(Long quiz_id, Long user_id);
 
 }
