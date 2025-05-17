@@ -59,7 +59,7 @@ public class QuizController {
     }
 
     // 해당 quizId에 응답 저장
-    @PostMapping("/{quizId}/answer")
+    /*@PostMapping("/{quizId}/answer")
     public ResponseEntity<?> submitQuizAnswer(@AuthenticationPrincipal CustomUserDetails userDetails,
                                               @PathVariable Long quizId,
                                               @RequestBody Map<String, String> body) {
@@ -90,7 +90,7 @@ public class QuizController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Quiz not found"));
         }
-    }
+    }*/
 
     @GetMapping("/{quiz_id}/percent")
     public ResponseEntity<?> getQuizPercent(
