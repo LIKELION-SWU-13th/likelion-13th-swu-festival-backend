@@ -14,6 +14,7 @@ import com.example.likelion_13th_swu_festival_backend.security.CustomUserDetails
 import com.example.likelion_13th_swu_festival_backend.service.AnswerService;
 import com.example.likelion_13th_swu_festival_backend.service.QuizAnswerService;
 import com.example.likelion_13th_swu_festival_backend.service.QuizService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,7 @@ public class QuizController {
     private final AnswerService answerService;
 
 
+    @Operation(summary = "해당 퀴즈내용 보여주기")
     @GetMapping("/{quizId}")
     public ResponseEntity<?> getQuiz(@PathVariable Long quizId) {
         try {
@@ -49,6 +51,7 @@ public class QuizController {
     }
 
     // 완료된 퀴즈 응답 리스트 반환
+    @Operation(summary = "완료된 퀴즈 응답 리스트 반환")
     @GetMapping("/star")
     public ResponseEntity<List<Long>> getCompletedQuizzes(@AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getUserId();
@@ -92,6 +95,7 @@ public class QuizController {
         }
     }*/
 
+    @Operation(summary = "해당 퀴즈 응답과 응답률 반환")
     @GetMapping("/{quiz_id}/percent")
     public ResponseEntity<?> getQuizPercent(
             @AuthenticationPrincipal CustomUserDetails userDetails,
