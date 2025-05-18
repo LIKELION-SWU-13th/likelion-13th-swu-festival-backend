@@ -15,6 +15,4 @@ public class QuizResponseDto {
     private String body;
     private String a_body;
     private String b_body;
-    private QuizStatus status;
-    private LocalDateTime open_time;
 }

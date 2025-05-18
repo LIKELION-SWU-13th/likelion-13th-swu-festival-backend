@@ -32,8 +32,6 @@ public class QuizService {
                 .body(quiz.getBody())
                 .a_body(quiz.getA_body())
                 .b_body(quiz.getB_body())
-                .status(quiz.getQuizStatus())
-                .open_time(quiz.getOpen_time())
                 .build();
     }
 
