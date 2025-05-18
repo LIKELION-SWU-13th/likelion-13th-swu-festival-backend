@@ -104,12 +104,31 @@ public class BoothService {
      */
 
     public List<Long> getParticipatedBooths(Long userId) {
-        // UserBooth 엔티티에서 userId로 참여한 기록 조회
         List<UserBooth> userBooths = userBoothRepository.findAllByUserId(userId);
 
-        // 참여한 부스의 ID만 추출해서 리스트로 반환
+        LocalDate today = LocalDate.now();
+        DayOfWeek dayOfWeek = today.getDayOfWeek();
+
+        long startId, endId;
+        switch (dayOfWeek) {
+            case THURSDAY:
+                startId = 29;
+                endId = 64;
+                break;
+            case FRIDAY:
+                startId = 65;
+                endId = 97;
+                break;
+            case WEDNESDAY:
+            default:
+                startId = 1;
+                endId = 28;
+                break;
+        }
+
         return userBooths.stream()
                 .map(userBooth -> userBooth.getBooth().getId())
+                .filter(id -> id >= startId && id <= endId)
                 .collect(Collectors.toList());
     }
 
