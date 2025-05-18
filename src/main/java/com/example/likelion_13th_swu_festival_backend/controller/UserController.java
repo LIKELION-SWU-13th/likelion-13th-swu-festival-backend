@@ -85,20 +85,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/type")
-    public ResponseEntity<Map<String, Integer>> getUserType(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        if (userDetails == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
-        Long userId = userDetails.getUserId();
-        int type = userService.determineUserType(userId);
-
-        Map<String, Integer> response = new HashMap<>();
-        response.put("type", type);
-
-        return ResponseEntity.ok(response);
-    }
 
 
 }
