@@ -74,19 +74,23 @@ public class BoothService {
     public void participateBooth(Long userId, Long boothId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        Booth booth = boothRepository.findById(boothId)
+
+        Booth targetBooth = boothRepository.findById(boothId)
                 .orElseThrow(() -> new RuntimeException("Booth not found"));
 
-        if (userBoothRepository.existsByUserAndBooth(user, booth)) {
-            throw new IllegalStateException("Already participated in this booth.");
+        // 1. 같은 이름의 부스 전부 조회
+        List<Booth> sameNamedBooths = boothRepository.findByName(targetBooth.getName());
+
+        // 2. 같은 이름의 부스에 대해 참여 처리
+        for (Booth booth : sameNamedBooths) {
+            if (!userBoothRepository.existsByUserAndBooth(user, booth)) {
+                UserBooth userBooth = UserBooth.builder()
+                        .user(user)
+                        .booth(booth)
+                        .build();
+                userBoothRepository.save(userBooth);
+            }
         }
-
-        UserBooth userBooth = UserBooth.builder()
-                .user(user)
-                .booth(booth)
-                .build();
-
-        userBoothRepository.save(userBooth);
     }
     /*
     public boolean hasParticipated(Long userId, Long boothId) {

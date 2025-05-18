@@ -8,5 +8,5 @@ import java.util.List;
 public interface BoothRepository extends JpaRepository<Booth, Long> {
 
     List<Booth> findByIdBetween(Long startId, Long endId);
-
+    List<Booth> findByName(String name);
 }
