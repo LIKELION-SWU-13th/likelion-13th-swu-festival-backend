@@ -11,6 +11,9 @@ import com.example.likelion_13th_swu_festival_backend.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,12 +29,38 @@ public class BoothService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("사용자 정보를 찾을 수 없습니다."));
 
-        List<String> boothNames = boothRepository.findAll().stream()
+        LocalDate today = LocalDate.now();
+        DayOfWeek dayOfWeek = today.getDayOfWeek();
+
+        int startId, endId;
+        switch (dayOfWeek) {
+            case THURSDAY:
+                startId = 29;
+                endId = 64;
+                break;
+            case FRIDAY:
+                startId = 65;
+                endId = 97;
+                break;
+            case WEDNESDAY:
+            default:
+                startId = 1;
+                endId = 28;
+                break;
+        }
+
+        List<Booth> booths = boothRepository.findByIdBetween((long) startId, (long) endId);
+
+        // 여기서 찍기
+        booths.forEach(b -> System.out.println("Booth id: " + b.getId() + ", name: " + b.getName()));
+
+        List<String> boothNames = booths.stream()
                 .map(Booth::getName)
                 .collect(Collectors.toList());
 
         return new BoothInfoResponse(boothNames, user.getMajor());
     }
+
 
     /*
     public BoothStatusResponse getBoothStatus(Long boothId) {
