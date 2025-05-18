@@ -51,8 +51,7 @@ public class BoothService {
 
         List<Booth> booths = boothRepository.findByIdBetween((long) startId, (long) endId);
 
-        // 여기서 찍기
-        booths.forEach(b -> System.out.println("Booth id: " + b.getId() + ", name: " + b.getName()));
+        booths.forEach(b -> System.out.println("[BoothService] Booth id: " + b.getId() + ", name: " + b.getName()));
 
         List<String> boothNames = booths.stream()
                 .map(Booth::getName)
