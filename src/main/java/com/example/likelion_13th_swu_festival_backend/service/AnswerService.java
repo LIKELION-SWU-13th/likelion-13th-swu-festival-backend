@@ -26,7 +26,7 @@ public class AnswerService {
     private final UserRepository userRepository;
     private final CouponService couponService;
 
-    @RedissonLock(value = "#quiz_id")
+    @RedissonLock(value = "#quiz_id", waitTime = 2000, leaseTime = 3000)
     public boolean saveAnswer(Long userId, char choice, Long quiz_id) throws Exception{
         // dto에 모든 값이 잘 들어있는지 확인: 없으면 오류 반환
         if(quiz_id == null || choice  == '\u0000') {
