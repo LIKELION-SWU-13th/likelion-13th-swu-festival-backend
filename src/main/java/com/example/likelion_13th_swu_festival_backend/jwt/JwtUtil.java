@@ -14,7 +14,8 @@ public class JwtUtil {
     @Value("${JWT_SECRET}")
     private String SECRET_KEY;
 
-    private final long ACCESS_EXP_TIME = 1000L * 60 * 60;  // 1시간
+    //private final long ACCESS_EXP_TIME = 1000L * 60 * 60;  // 1시간
+    private final long ACCESS_EXP_TIME = 1000L * 60 * 2;  // 2분
     //private final long REFRESH_EXP_TIME = 1000L * 60 * 60 * 24;  // 24시간
 
     public String generateAccessToken(User user) {
@@ -30,17 +31,19 @@ public class JwtUtil {
 
     public String generateRefreshToken(User user) {
         // 현재 시간 기준으로 '다음 날 오전 9시' 고정
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.set(java.util.Calendar.HOUR_OF_DAY, 9);
-        calendar.set(java.util.Calendar.MINUTE, 0);
-        calendar.set(java.util.Calendar.SECOND, 0);
-        calendar.set(java.util.Calendar.MILLISECOND, 0);
+//        java.util.Calendar calendar = java.util.Calendar.getInstance();
+//        calendar.set(java.util.Calendar.HOUR_OF_DAY, 9);
+//        calendar.set(java.util.Calendar.MINUTE, 0);
+//        calendar.set(java.util.Calendar.SECOND, 0);
+//        calendar.set(java.util.Calendar.MILLISECOND, 0);
+//
+//        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+//            calendar.add(java.util.Calendar.DATE, 1);
+//        }
+//
+//        Date expireAt = calendar.getTime();
 
-        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-            calendar.add(java.util.Calendar.DATE, 1);
-        }
-
-        Date expireAt = calendar.getTime();
+        Date expireAt = new Date(System.currentTimeMillis() + 1000L * 60 * 3); // 3분
 
         return Jwts.builder()
                 .setSubject(user.getStudentNum())
