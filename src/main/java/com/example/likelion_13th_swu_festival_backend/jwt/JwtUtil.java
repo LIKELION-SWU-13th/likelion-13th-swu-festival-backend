@@ -43,7 +43,7 @@ public class JwtUtil {
 //
 //        Date expireAt = calendar.getTime();
 
-        Date expireAt = new Date(System.currentTimeMillis() + 1000L * 60 * 3); // 3분
+        Date expireAt = new Date(System.currentTimeMillis() + 1000L * 60 * 4); // 4분
 
         return Jwts.builder()
                 .setSubject(user.getStudentNum())
