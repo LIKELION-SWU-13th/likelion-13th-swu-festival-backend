@@ -24,16 +24,15 @@ public class RedissonLockAspect {
 
     @Around("@annotation(com.example.likelion_13th_swu_festival_backend.aop.RedissonLock)")
     public Object redissonLock(ProceedingJoinPoint joinPoint) throws IllegalStateException, Throwable {
-
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         RedissonLock annotation = method.getAnnotation(RedissonLock.class);
         String lockKey = method.getName() + CustomSpringELParser.getDynamicValue(signature.getParameterNames(), joinPoint.getArgs(), annotation.value());
 
         RLock lock = redissonClient.getLock(lockKey);
-
+        boolean lockable = false;
         try {
-            boolean lockable = lock.tryLock(annotation.waitTime(), annotation.leaseTime(), TimeUnit.MILLISECONDS);
+            lockable = lock.tryLock(annotation.waitTime(), annotation.leaseTime(), TimeUnit.MILLISECONDS);
             if (!lockable) {
                 log.info("Lock 획득 실패={}", lockKey);
                 throw new IllegalStateException("쿠폰 락 획득 실패: " + lockKey);
@@ -44,10 +43,11 @@ public class RedissonLockAspect {
             log.info("에러 발생");
             throw e;
         } finally {
-            log.info("락 해제");
-            lock.unlock();
+            if (lockable) {
+                log.info("락 해제");
+                lock.unlock();
+            }
         }
-
     }
 
 }
