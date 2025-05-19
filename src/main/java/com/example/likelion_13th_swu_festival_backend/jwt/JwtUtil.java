@@ -15,7 +15,7 @@ public class JwtUtil {
     private String SECRET_KEY;
 
     //private final long ACCESS_EXP_TIME = 1000L * 60 * 60;  // 1시간
-    private final long ACCESS_EXP_TIME = 1000L * 60 * 2;  // 2분
+    private final long ACCESS_EXP_TIME = 1000L * 60 * 10;  // 10분
     //private final long REFRESH_EXP_TIME = 1000L * 60 * 60 * 24;  // 24시간
 
     public String generateAccessToken(User user) {
@@ -43,7 +43,7 @@ public class JwtUtil {
 //
 //        Date expireAt = calendar.getTime();
 
-        Date expireAt = new Date(System.currentTimeMillis() + 1000L * 60 * 4); // 4분
+        Date expireAt = new Date(System.currentTimeMillis() + 1000L * 60 * 20); // 20분
 
         return Jwts.builder()
                 .setSubject(user.getStudentNum())
