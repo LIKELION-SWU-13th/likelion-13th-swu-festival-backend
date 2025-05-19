@@ -160,8 +160,8 @@ public class AnswerService {
         AnswerReturnDto answerReturnDto = new AnswerReturnDto();
         answerReturnDto.set_win(isWin);
         answerReturnDto.setChoice(choice);
-        answerReturnDto.setA_rate((float)countA / total);
-        answerReturnDto.setB_rate((float)countB / total);
+        answerReturnDto.setA_rate(((float)countA / total) * 100);
+        answerReturnDto.setB_rate(((float)countB / total) * 100);
 
         return answerReturnDto;
     }

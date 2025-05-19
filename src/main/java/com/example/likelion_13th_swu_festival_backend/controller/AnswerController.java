@@ -26,6 +26,7 @@ public class AnswerController {
             AnswerReturnDto answerReturnDto = answerService.calculateVoterTurnout(quiz_id, is_win, choice);
 
             System.out.println("addAnswer_ok");
+            System.out.println("answerReturnDto: " + answerReturnDto);
             return ResponseEntity.ok(answerReturnDto);
         } catch (IllegalArgumentException e) {
 
