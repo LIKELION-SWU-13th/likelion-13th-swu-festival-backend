@@ -10,6 +10,11 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"user_id", "quiz_id"})
+        }
+)
 public class Answer extends BaseEntity {
     @Id
     @Column(name = "answer_id")
