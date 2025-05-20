@@ -9,14 +9,14 @@ import com.example.likelion_13th_swu_festival_backend.repository.AnswerRepositor
 import com.example.likelion_13th_swu_festival_backend.repository.QuizRepository;
 import com.example.likelion_13th_swu_festival_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,21 +24,9 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuizRepository quizRepository;
     private final UserRepository userRepository;
+    private final CouponService couponService;
 
-    // 한 문제에 중복 응답 여부 반환
-    public boolean findAnswer(Long user_id, Long quiz_id) {
-
-        Answer answer = answerRepository.findByQuizIdAndUserId(quiz_id, user_id);
-
-        if (answer != null) {
-            throw new IllegalArgumentException("한 문제에 응답을 한 번만 할 수 있습니다.");
-        }
-
-        return true;
-    }
-
-    // answer 받아와서 저장-> 당첨 여부 전달
-    @RedissonLock(value = "#quiz_id")
+    @RedissonLock(value = "#quiz_id", waitTime = 2000, leaseTime = 3000)
     public boolean saveAnswer(Long userId, char choice, Long quiz_id) throws Exception{
         // dto에 모든 값이 잘 들어있는지 확인: 없으면 오류 반환
         if(quiz_id == null || choice  == '\u0000') {
@@ -95,6 +83,8 @@ public class AnswerService {
         return isWin;
     }
 
+
+
     // 투표율 계산 메서드
     public AnswerReturnDto calculateVoterTurnout(Long quiz_id, boolean isWin, char choice) {
         Long countA = answerRepository.countByQuizIdAndChoice(quiz_id, 'A');
@@ -105,8 +95,8 @@ public class AnswerService {
         AnswerReturnDto answerReturnDto = new AnswerReturnDto();
         answerReturnDto.set_win(isWin);
         answerReturnDto.setChoice(choice);
-        answerReturnDto.setA_rate((float)countA / total);
-        answerReturnDto.setB_rate((float)countB / total);
+        answerReturnDto.setA_rate(((float)countA / total) * 100);
+        answerReturnDto.setB_rate(((float)countB / total) * 100);
 
         return answerReturnDto;
     }

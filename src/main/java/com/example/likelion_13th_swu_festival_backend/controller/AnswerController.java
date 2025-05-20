@@ -27,14 +27,13 @@ public class AnswerController {
 
             return ResponseEntity.ok(answerReturnDto);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (IllegalStateException e) {
-            System.out.println(e.getMessage());
+
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body( e.getMessage());
         }
     }

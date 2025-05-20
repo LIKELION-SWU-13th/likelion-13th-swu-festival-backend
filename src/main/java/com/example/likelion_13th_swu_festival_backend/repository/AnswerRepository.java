@@ -22,11 +22,11 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     // 퀴즈 id와 유저 id로 응답 조회
     public Answer findByQuizIdAndUserId(Long quiz_id, Long user_id);
 
-    // 유저 id로 당첨 기록이 있는 객체들 조회
-    public List<Answer> findAnswersByIsWinIsTrueAndUserId(Long user_id);
-
     // 퀴즈 id와 응답으로 객체 갯수 조회
     public Long countByQuizIdAndChoice(Long quizId, char choice);
+
+    // 유저 id와 퀴즈 id로 당첨 기록이 있는 객체가 있는지 반환
+    public boolean existsByUserIdAndQuizId(Long userId, Long quizId);
 
     Optional<Answer> findOptionalByQuizIdAndUserId(Long quiz_id, Long user_id);
 
