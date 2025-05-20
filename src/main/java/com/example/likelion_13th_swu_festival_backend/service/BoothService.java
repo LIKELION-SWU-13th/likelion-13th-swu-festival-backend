@@ -35,17 +35,17 @@ public class BoothService {
         int startId, endId;
         switch (dayOfWeek) {
             case THURSDAY:
-                startId = 29;
-                endId = 64;
+                startId = 29; //29
+                endId = 64; //64
                 break;
             case FRIDAY:
-                startId = 65;
-                endId = 97;
+                startId = 65; //65
+                endId = 97;  //97
                 break;
             case WEDNESDAY:
             default:
-                startId = 1;
-                endId = 28;
+                startId = 1; //1
+                endId = 28; //28
                 break;
         }
 

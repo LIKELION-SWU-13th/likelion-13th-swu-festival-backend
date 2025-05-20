@@ -34,6 +34,8 @@ public class BoothController {
         }
     }
 
+
+
     /*
     @GetMapping("/{boothId}/info")
     public ResponseEntity<BoothStatusResponse> getBoothStatus(@PathVariable Long boothId) {
