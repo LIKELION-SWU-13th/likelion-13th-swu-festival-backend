@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Component
 public class JwtUtil {
@@ -30,8 +32,11 @@ public class JwtUtil {
     }
 
     public String generateRefreshToken(User user) {
+        // 한국표준시 타임존으로 Calendar 생성
+        TimeZone seoulTz = TimeZone.getTimeZone("Asia/Seoul");
+        Calendar calendar = Calendar.getInstance(seoulTz);
+
         // 현재 시간 기준으로 '다음 날 오전 9시' 고정
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 9);
         calendar.set(java.util.Calendar.MINUTE, 0);
         calendar.set(java.util.Calendar.SECOND, 0);
