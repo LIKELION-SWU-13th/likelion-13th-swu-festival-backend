@@ -6,9 +6,10 @@ import lombok.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@JsonPropertyOrder({"choice", "a_rate", "b_rate"})
+@JsonPropertyOrder({"choice", "a_rate", "b_rate", "is_win"})
 public class QuizPercentResponse {
     private String choice;
     private double a_rate;
     private double b_rate;
+    private boolean is_win;
 }

@@ -113,6 +113,7 @@ public class QuizController {
         }
 
         String userChoice = String.valueOf(userAnswer.getChoice());
+        boolean isWin = userAnswer.isWin();
 
         long totalCount = answerRepository.countByQuizId(quiz_id);
         long aCount = answerRepository.countByQuizIdAndChoice(quiz_id, 'A');
@@ -121,7 +122,7 @@ public class QuizController {
         double aPercent = totalCount == 0 ? 0 : (double) aCount / totalCount * 100;
         double bPercent = totalCount == 0 ? 0 : (double) bCount / totalCount * 100;
 
-        QuizPercentResponse response = new QuizPercentResponse(userChoice, aPercent, bPercent);
+        QuizPercentResponse response = new QuizPercentResponse(userChoice, aPercent, bPercent, isWin);
 
         return ResponseEntity.ok(response);
     }
