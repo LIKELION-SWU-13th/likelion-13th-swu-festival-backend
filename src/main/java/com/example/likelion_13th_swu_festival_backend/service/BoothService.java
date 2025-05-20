@@ -111,7 +111,7 @@ public class BoothService {
 
         long startId, endId;
         switch (dayOfWeek) {
-            case THURSDAY:
+            case TUESDAY:
                 startId = 29;
                 endId = 64;
                 break;
