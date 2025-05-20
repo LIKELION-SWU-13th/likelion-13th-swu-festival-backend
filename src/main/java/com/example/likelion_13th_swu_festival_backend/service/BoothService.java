@@ -110,10 +110,10 @@ public class BoothService {
         DayOfWeek dayOfWeek = today.getDayOfWeek();
 
         long startId, endId;
-        switch (dayOfWeek) {
-            case TUESDAY:
-                startId = 29;
-                endId = 64;
+        switch (dayOfWeek) { //1-18, 29-64, 65-97
+            case THURSDAY:
+                startId = 1;
+                endId = 28;
                 break;
             case FRIDAY:
                 startId = 65;
@@ -121,8 +121,8 @@ public class BoothService {
                 break;
             case WEDNESDAY:
             default:
-                startId = 1;
-                endId = 28;
+                startId = 29;
+                endId = 64;
                 break;
         }
 
