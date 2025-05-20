@@ -24,9 +24,9 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuizRepository quizRepository;
     private final UserRepository userRepository;
-    private final CouponService couponService;
 
-    @RedissonLock(value = "#quiz_id", waitTime = 2000, leaseTime = 3000)
+
+    @RedissonLock(value = "#quiz_id", waitTime = 7000, leaseTime = 3000)
     public boolean saveAnswer(Long userId, char choice, Long quiz_id) throws Exception{
         // dto에 모든 값이 잘 들어있는지 확인: 없으면 오류 반환
         if(quiz_id == null || choice  == '\u0000') {
@@ -41,25 +41,25 @@ public class AnswerService {
 
 
         Optional<Quiz> optionalQuiz = quizRepository.findById(quiz_id);
-
         if (optionalQuiz.isEmpty()) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "quiz_id is null");
         }
 
 
         Optional<User> optionalUser = userRepository.findById(userId);
-
         if (optionalUser.isEmpty()) {
             throw new IllegalArgumentException("quiz_id or body is null quiz_id: " + quiz_id + "/ choice: " + choice);
         }
 
         Quiz quiz = optionalQuiz.get();
 
-        // quiz 선착순 남은 쿠폰 갯수 확인
-        Long count = quiz.getCount();
-
-        // 만약 남았다면 isWin을 true로 아니면 false로 설정
-        boolean isWin = (count > 0) ? true : false;
+        // 당첨인지 확인
+        boolean isWin = false;
+        if (quiz.getCount() > 0) {
+            quiz.decreaseQuizCount();           // 내부에서 count - 1
+            quizRepository.saveAndFlush(quiz);  // DB 반영
+            isWin = true;
+        }
 
         // answer 객체 생성
         Answer answer = Answer.builder()
@@ -71,13 +71,6 @@ public class AnswerService {
 
         // 저장
         answerRepository.save(answer);
-
-        if (isWin) {
-            // 발급 가능한 쿠폰 갯수 감소
-            quiz.decreaseQuizCount();
-            quizRepository.saveAndFlush(quiz);
-
-        }
 
         // isWin 값 반환
         return isWin;
