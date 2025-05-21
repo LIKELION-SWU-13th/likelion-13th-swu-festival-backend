@@ -5,6 +5,8 @@ import com.example.likelion_13th_swu_festival_backend.entity.Quiz;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -22,6 +24,8 @@ public class QuizDataInitializer implements CommandLineRunner {
             quiz1.setA_body("무대 앞 1열! 스탠딩이 좋아요");
             quiz1.setB_body("뒤쪽 그늘에서 여유롭게 즐기고 싶어요.");
             quiz1.setCount(2L);
+            // 테스트용. 배포할때 고쳐야됨
+            quiz1.setOpen_time(LocalDateTime.of(2025, 5, 21, 11, 52));
 
             Quiz quiz2 = new Quiz();
             quiz2.setBody("축제에 가면 슈니가 가장 먼저 가는 곳은?");

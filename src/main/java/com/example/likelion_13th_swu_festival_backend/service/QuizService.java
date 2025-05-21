@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,26 @@ public class QuizService {
         Quiz quiz = quizRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("quiz not found"));
 
+        return QuizResponseDto.builder()
+                .id(quiz.getId())
+                .body(quiz.getBody())
+                .a_body(quiz.getA_body())
+                .b_body(quiz.getB_body())
+                .build();
+    }
+
+    public Quiz findQuiz(Long quizId) {
+        return quizRepository.findById(quizId).orElseThrow(() -> new EntityNotFoundException("quiz not found"));
+    }
+
+    public boolean isOpen(LocalDateTime openTime) {
+        if (LocalDateTime.now().isAfter(openTime)) {
+            return true;
+        }
+        else return false;
+    }
+
+    public QuizResponseDto getQuizById(Quiz quiz) {
         return QuizResponseDto.builder()
                 .id(quiz.getId())
                 .body(quiz.getBody())

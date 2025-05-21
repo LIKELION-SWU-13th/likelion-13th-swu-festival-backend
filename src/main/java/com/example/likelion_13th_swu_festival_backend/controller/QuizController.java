@@ -39,12 +39,30 @@ public class QuizController {
     private final AnswerService answerService;
 
 
+//    @Operation(summary = "해당 퀴즈내용 보여주기")
+//    @GetMapping("/{quizId}")
+//    public ResponseEntity<?> getQuiz(@PathVariable Long quizId) {
+//        try {
+//            QuizResponseDto quiz = quizService.getQuizById(quizId);
+//            return ResponseEntity.ok(quiz);
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.badRequest().body(Map.of("message", "quiz not found"));
+//        }
+//    }
+
     @Operation(summary = "해당 퀴즈내용 보여주기")
     @GetMapping("/{quizId}")
     public ResponseEntity<?> getQuiz(@PathVariable Long quizId) {
         try {
-            QuizResponseDto quiz = quizService.getQuizById(quizId);
-            return ResponseEntity.ok(quiz);
+            Quiz quiz = quizService.findQuiz(quizId);
+
+            if (! quizService.isOpen(quiz.getOpen_time())) {
+                return ResponseEntity.status(423).body("quiz not open");
+            }
+
+            QuizResponseDto quizResponseDto = quizService.getQuizById(quiz);
+            return ResponseEntity.ok(quizResponseDto);
+
         } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(Map.of("message", "quiz not found"));
         }
