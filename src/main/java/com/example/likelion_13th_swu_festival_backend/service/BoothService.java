@@ -121,8 +121,8 @@ public class BoothService {
                 break;
             case WEDNESDAY:
             default:
-                startId = 1;
-                endId = 28;
+                startId = 29;
+                endId = 64;
                 break;
         }
 
