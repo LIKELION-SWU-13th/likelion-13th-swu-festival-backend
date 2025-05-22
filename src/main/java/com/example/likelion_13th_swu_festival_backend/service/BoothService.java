@@ -28,41 +28,38 @@ public class BoothService {
     private final UserBoothRepository userBoothRepository;
 
     private static final Map<Long, Long> boothNumberMap = Map.ofEntries(
-            Map.entry(1L, 29L),
-            Map.entry(2L, 30L),
-            Map.entry(3L, 31L),
-            Map.entry(4L, 32L),
-            Map.entry(5L, 33L),
-            Map.entry(6L, 34L),
-            Map.entry(7L, 35L),
-            Map.entry(8L, 36L),
-            Map.entry(9L, 37L),
-            Map.entry(10L, 38L),
-            Map.entry(11L, 39L),
-            Map.entry(12L, 40L),
-            Map.entry(13L, 41L),
-            Map.entry(14L, 42L),
-            Map.entry(15L, 43L),
-            Map.entry(16L, 44L),
-            Map.entry(17L, 45L),
-            Map.entry(18L, 46L),
-            Map.entry(19L, 47L),
-            Map.entry(20L, 48L),
-            Map.entry(21L, 49L),
-            Map.entry(22L, 50L),
-            Map.entry(23L, 51L),
-            Map.entry(24L, 52L),
-            Map.entry(25L, 53L),
-            Map.entry(26L, 55L),
-            Map.entry(27L, 56L),
-            Map.entry(28L, 57L),
-            Map.entry(29L, 58L),
-            Map.entry(30L, 59L),
-            Map.entry(31L, 60L),
-            Map.entry(32L, 61L),
-            Map.entry(33L, 62L),
-            Map.entry(34L, 63L),
-            Map.entry(35L, 64L)
+            Map.entry(1L, 65L),
+            Map.entry(2L, 66L),
+            Map.entry(3L, 67L),
+            Map.entry(4L, 68L),
+            Map.entry(5L, 69L),
+            Map.entry(6L, 70L),
+            Map.entry(7L, 71L),
+            Map.entry(8L, 72L),
+            Map.entry(9L, 73L),
+            Map.entry(10L, 74L),
+            Map.entry(11L, 75L),
+            Map.entry(12L, 76L),
+            Map.entry(13L, 77L),
+            Map.entry(14L, 78L),
+            Map.entry(21L, 79L),
+            Map.entry(15L, 80L),
+            Map.entry(16L, 81L),
+            Map.entry(17L, 82L),
+            Map.entry(18L, 83L),
+            Map.entry(19L, 84L),
+            Map.entry(20L, 85L),
+            Map.entry(22L, 87L),
+            Map.entry(23L, 88L),
+            Map.entry(24L, 89L),
+            Map.entry(25L, 90L),
+            Map.entry(26L, 91L),
+            Map.entry(27L, 92L),
+            Map.entry(28L, 93L),
+            Map.entry(29L, 94L),
+            Map.entry(30L, 95L),
+            Map.entry(31L, 96L),
+            Map.entry(32L, 97L)
     );
 
     private static final Map<Long, Long> dbToFrontMap = boothNumberMap.entrySet()
@@ -105,8 +102,8 @@ public class BoothService {
                 break;
             case WEDNESDAY:
             default:
-                startId = 29; //1
-                endId = 64; //28
+                startId = 65; //1
+                endId = 97; //28
                 break;
         }
 
@@ -182,8 +179,8 @@ public class BoothService {
                 break;
             case WEDNESDAY:
             default:
-                startId = 29;
-                endId = 64;
+                startId = 65;
+                endId = 97;
                 break;
         }
 
