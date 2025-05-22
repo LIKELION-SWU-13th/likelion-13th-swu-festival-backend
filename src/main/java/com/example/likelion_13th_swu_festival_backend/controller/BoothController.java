@@ -44,30 +44,30 @@ public class BoothController {
     }
     */
 
+    /*
     @PostMapping("/{boothId}/participate")
     public ResponseEntity<String> participateBooth(@PathVariable Long boothId,
                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
         boothService.participateBooth(userDetails.getUserId(), boothId);
         return ResponseEntity.ok("참여가 완료되었습니다.");
+    }*/
+
+    @PostMapping("/{boothId}/participate")
+    public ResponseEntity<String> participateBooth(@PathVariable Long boothId,
+                                                   @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long dbBoothId = boothService.convertToDatabaseBoothId(boothId);  // ★ 프론트 → DB 번호 변환
+
+        boothService.participateBooth(userDetails.getUserId(), dbBoothId);
+        return ResponseEntity.ok("참여가 완료되었습니다.");
     }
 
-    /*
-    @GetMapping("/{boothId}/complete")
-    public ResponseEntity<Map<String, Boolean>> isBoothCompleted(@PathVariable Long boothId,
-                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
-        boolean participated = boothService.hasParticipated(userDetails.getUserId(), boothId);
-        Map<String, Boolean> result = new HashMap<>();
-        result.put("isParticipated", participated);
-        return ResponseEntity.ok(result);
-    }
-    */
 
     @GetMapping("/complete")
     public ResponseEntity<List<Long>> getParticipatedBooths(
             @AuthenticationPrincipal CustomUserDetails userDetails) {
-
-        List<Long> boothIdList = boothService.getParticipatedBooths(userDetails.getUserId());
-        return ResponseEntity.ok(boothIdList);
+        List<Long> dbBoothIdList = boothService.getParticipatedBooths(userDetails.getUserId());
+        List<Long> frontBoothIdList = boothService.convertDbBoothIdListToFront(dbBoothIdList);
+        return ResponseEntity.ok(frontBoothIdList);
     }
 
 
